@@ -8,23 +8,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --background: #ffffff; */
+    --background: #ffffff;
     --foreground: #171717;
     --main-color: #5F259F;
     --secondary-color-1: #9468C4;
-    --secondary-color-2: #659F25;
+    --secondary-color-2: #5F259F;
   }
 }
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-  margin: 24px auto;
+  width: 700px;
+  max-width: 95vw;
+  margin: 32px auto 16px auto;
   background: #fff;
-  box-shadow: 0 4px 12px rgba(95, 37, 159, 0.15);
+  box-shadow: 0 2px 8px rgba(95, 37, 159, 0.10);
   border-radius: 8px;
   overflow: hidden;
-  border-spacing: 8px;
+  border-spacing: 0;
 }
 
 thead {
@@ -43,12 +45,23 @@ tbody tr {
   transition: background 0.2s;
 }
 
+tbody a {
+  color: black;
+  font-style: italic;
+}
+
+tbody a:hover {
+  color: var(--main-color);
+  font-style: italic;
+}
+
 tbody tr:hover {
-  background: linear-gradient(135deg, var(--secondary-color-2), rgba(101, 159, 37, 0.8)) !important;
+  background: linear-gradient(135deg, rgba(158, 75, 164, 0.8), var(--secondary-color-2)) !important;
   color: #fff;
   transform: scale(1.01);
   box-shadow: 0 2px 8px rgba(101, 159, 37, 0.3);
 }
+
 tr:nth-child(even) {
   background-color: rgba(95, 37, 159, 0.08);
 }
@@ -63,38 +76,6 @@ table th {
   font-size: 14px;
   text-transform: uppercase;
   border-bottom: 3px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Style spécial pour les espaces verts */
-.green-space {
-  background-color: rgba(152, 196, 104, 0.15) !important;
-  border-left: 4px solid #98C468 !important;
-}
-
-.green-space:hover {
-  background: linear-gradient(135deg, #98C468, rgba(152, 196, 104, 0.8)) !important;
-  color: #fff !important;
-}
-
-.activity {
-  background-color: rgba(95, 37, 159, 0.15) !important;
-  border-left: 4px solid #5f259f !important;
-}
-
-.activity:hover {
-  background: linear-gradient(135deg, #5f259f, rgba(95, 37, 159, 0.8)) !important;
-  color: #fff !important;
-}
-
-/* Style spécial pour les fontaines */
-.fountain {
-  background-color: rgba(52, 152, 219, 0.15) !important;
-  border-left: 4px solid #3498db !important;
-}
-
-.fountain:hover {
-  background: linear-gradient(135deg, #3498db, rgba(52, 152, 219, 0.8)) !important;
-  color: #fff !important;
 }
 
 html,
@@ -134,6 +115,28 @@ hr {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+.search-bar-input {
+  width: 350px;
+  max-width: 90vw;
+  padding: 14px 20px;
+  border: 2px solid var(--main-color);
+  border-radius: 32px;
+  font-size: 1.1rem;
+  background: #faf7ff;
+  color: var(--foreground);
+  box-shadow: 0 2px 8px rgba(95, 37, 159, 0.08);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin: 32px auto 0 auto;
+  display: block;
+}
+
+.search-bar-input:focus {
+  border: 2px solid var(--secondary-color-1);
+  box-shadow: 0 4px 16px rgba(95, 37, 159, 0.18);
+  background: #fff;
 }
 
 @media (prefers-color-scheme: dark) {
