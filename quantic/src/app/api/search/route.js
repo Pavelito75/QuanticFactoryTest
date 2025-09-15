@@ -22,7 +22,9 @@ export async function GET(req) {
       item.name,
       item.voie,
       item.adresse,
-      item.commune
+      item.commune,
+      item.type,
+      item.type_objet,
     ];
     return fields.some(f => (f || '').toLowerCase().includes(q));
   });
