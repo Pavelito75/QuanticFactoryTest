@@ -3,9 +3,9 @@ export async function GET(req) {
   const q = searchParams.get('q')?.toLowerCase() || '';
 
   const [act, fresh, drink] = await Promise.all([
-    fetch('https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/ilots-de-fraicheur-equipements-activites/records?order_by=arrondissement&limit=50')
+    fetch('https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/ilots-de-fraicheur-equipements-activites/records?limit=100')
       .then(res => res.json()),
-    fetch('https://parisdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/ilots-de-fraicheur-espaces-verts-frais/records?order_by=arrondissement&limit=50')
+    fetch('https://parisdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/ilots-de-fraicheur-espaces-verts-frais/records?limit=100')
       .then(res => res.json()),
     fetch('https://parisdata.opendatasoft.com/api/explore/v2.1/catalog/datasets/fontaines-a-boire/records?limit=50')
       .then(res => res.json()),
