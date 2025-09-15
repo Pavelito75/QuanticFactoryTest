@@ -1,7 +1,3 @@
-// RAJOUTER FILTRE GRATUIT OU NON
-// FILTRE OUVERT OU NON
-// FILTRE PAR TRUCS (ACTIVITES, JARDIN, FONTAINE)
-// FILTRE PAR ARRONDISSEMENT (FILTRE OU L'ON PEUT CHOISIR LE NUMERO EN ECRIVANT ET CA ME RAMENE DESSUS)
 // PAGINATION
 // SI JAMAIS J'AI LE TEMPS FAIRE UN INPUT OU TU PEUX METTRE TON ADRESSE ET CA TE RENVOIE LES TRUCS LES PLUS PROCHES
 // UN BON README 
@@ -10,6 +6,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "@/components/SearchBar";
+import FilterCheckbox from "@/components/FilterCheckbox";
+import FilterActivite from "@/components/FilterActivite";
+import FilterArrondissement from "@/components/FilterArrondissement";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -17,38 +16,43 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [filterGratuit, setFilterGratuit] = useState(false);
   const [filterOuvert, setFilterOuvert] = useState(false);
+  const [filterActivite, setFilterActivite] = useState("");
+  const [filterArrondissement, setFilterArrondissement] = useState("");
   const searchTimeoutRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(function() {
+
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
-    searchTimeoutRef.current = setTimeout(() => {
-      const fetchData = async () => {
+
+    searchTimeoutRef.current = setTimeout(function() {
+      async function fetchData() {
         setLoading(true);
+
         try {
-          let url;
+          var url;
+
           if (query) {
-            url = `/api/search?q=${encodeURIComponent(query)}`;
+            url = `/api/search?q=${query}`;
           } else {
             url = "/api/search";
           }
 
-          const res = await fetch(url);
-          const json = await res.json();
+          var res = await fetch(url);
+          var json = await res.json();
 
           if (json.results) {
             setData(json.results);
           } else {
             setData([]);
           }
-          
         } catch (e) {
           setData([]);
         } finally {
           setLoading(false);
         }
-      };
+      }
       fetchData();
     }, 400);
 
@@ -63,120 +67,90 @@ export default function Home() {
     <div id="true">
       <SearchBar onQueryChange={setQuery} />
       <div>
-        <label>
-          <input type="checkbox" checked={filterGratuit} onChange={e => setFilterGratuit(e.target.checked)} />
-          Gratuit uniquement
-        </label>
-        <label>
-          <input type="checkbox" checked={filterOuvert} onChange={e => setFilterOuvert(e.target.checked)} />
-          Ouvert actuellement
-        </label>
+        <FilterCheckbox checked={filterGratuit} onChange={function(e) { setFilterGratuit(e.target.checked); }} label="Gratuit uniquement" />
+        <FilterCheckbox checked={filterOuvert} onChange={function(e) { setFilterOuvert(e.target.checked); }} label="Ouvert actuellement" />
       </div>
-      {(() => {
+      <div>
+        <FilterActivite data={data} value={filterActivite} onChange={function(e) { setFilterActivite(e.target.value); }} />
+        <FilterArrondissement data={data} value={filterArrondissement} onChange={function(e) { setFilterArrondissement(e.target.value); }} />
+        <button onClick={() => {setFilterGratuit(false);setFilterOuvert(false); setFilterActivite(""); setFilterArrondissement("");}}>Reinitialiser les filtres</button>
+      </div>
+      {
+        (() => {
 
-        if (loading) {
-          return <div>Chargement...</div>;
-        } else {
-          let filteredData = data;
+          if (loading) {
+            return <div>Chargement...</div>;
+          }
           
-          if (filterGratuit) {
-            filteredData = filteredData.filter(item => {
-              if (item.payant === undefined || item.payant === null) return true;
-              return String(item.payant).toLowerCase() === "non";
-            });
+          var filteredData = [];
+          
+          for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var keepItem = true;
+            
+            if (filterGratuit && String(item.payant).toLowerCase() !== "non") {
+              keepItem = false;
+            }
+            
+            if (filterOuvert && String(item.statut_ouverture).toLowerCase() !== "ouvert") {
+              keepItem = false;
+            }
+            
+            if (filterActivite && item.type !== filterActivite) {
+              keepItem = false;
+            }
+            
+            if (filterArrondissement && item.arrondissement !== filterArrondissement) {
+              keepItem = false;
+            }
+            
+            if (keepItem) {
+              filteredData.push(item);
+            }
           }
-
-          if (filterOuvert) {
-            filteredData = filteredData.filter(item => {
-              if (item.statut_ouverture === undefined || item.statut_ouverture === null) {
-                return false;
-              }
-              return String(item.statut_ouverture).toLowerCase() === "ouvert";
-            });
-          }
-
-          return (
-            <table>
-              <thead>
-                <tr>
-                  <th>LIEUX</th>
-                  <th>ACTIVITES</th>
-                  <th>PAYANT</th>
-                  <th>ADRESSE</th>
-                  <th>ARRONDISSEMENT</th>
-                  <th>HORAIRES D'OUVERTURES</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(() => {
-                  if (filteredData.length > 0) {
-                    return filteredData.map((item, index) => {
-                      let lieu = "-";
-                      if (item.nom || item.name || item.voie) {
-                        lieu = (
-                          <a href={`https://www.google.com/search?q=${(item.nom || item.name || item.voie || "")}`} target="_blank">
-                            {item.nom || item.name || item.voie}
-                          </a>
+          
+            return (
+              <table>
+                <thead>
+                  <tr>
+                    <th>LIEUX</th>
+                    <th>ACTIVITES</th>
+                    <th>PAYANT</th>
+                    <th>ADRESSE</th>
+                    <th>ARRONDISSEMENT</th>
+                    <th>HORAIRES D'OUVERTURES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                  (() => {
+                    if (filteredData.length > 0) {
+                      return filteredData.map(function(item, index) {
+                        return (
+                          <tr key={index}>
+                            <td>{item.nom || item.name || item.voie || "-"}</td>
+                            <td>{item.type || "Fontaine"}</td>
+                            <td>{item.payant || "Non"}</td>
+                            <td>{item.adresse || item.no_voirie_pair || item.no_voirie_impair || "-"}</td>
+                            <td>{item.arrondissement || item.commune || "-"}</td>
+                            <td>{item.horaires_periode || "-"}</td>
+                          </tr>
                         );
-                      }
-
-                      let adresse = "-";
-                      if (item.adresse || item.no_voirie_pair || item.no_voirie_impair) {
-                        adresse = (
-                          <a href={`https://www.google.com/maps/search/?api=1&query=${([item.adresse, item.no_voirie_pair, item.no_voirie_impair, item.commune].filter(Boolean).join(" "))}`} target="_blank">
-                            {item.adresse || item.no_voirie_pair || item.no_voirie_impair}
-                          </a>
-                        );
-                      }
-
-                      let activite = "Fontaine";
-                      if (item.type) {
-                        activite = item.type;
-                      }
-
-                      let payant = "Non";
-                      if (item.payant) {
-                        payant = item.payant;
-                      }
-
-                      let arrondissement = "-";
-                      if (item.arrondissement) {
-                        arrondissement = item.arrondissement;
-                      } else if (item.commune) {
-                        arrondissement = item.commune;
-                      }
-
-                      let horaires = "-";
-                      if (item.horaires_periode) {
-                        horaires = item.horaires_periode;
-                      }
-
+                      });
+                    } else {
                       return (
-                        <tr key={`${item.identifiant || item.gid || 'item'}-${index}`}>
-                          <td>{lieu}</td>
-                          <td>{activite}</td>
-                          <td>{payant}</td>
-                          <td>{adresse}</td>
-                          <td>{arrondissement}</td>
-                          <td>{horaires}</td>
+                        <tr>
+                          <td colSpan="6">Aucun résultat trouvé.</td>
                         </tr>
                       );
-                    });
-                  } else {
-                    return (
-                      <tr>
-                        <td colSpan="6">
-                          Aucun résultat trouvé.
-                        </td>
-                      </tr>
-                    );
-                  }
-                })()}
+                    }
+                  })()
+                }
               </tbody>
             </table>
           );
-        }
-      })()}
+        })()
+      }
     </div>
   );
 }
