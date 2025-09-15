@@ -1,9 +1,10 @@
-// FILTRE PAR TRUCS (ACTIVITES, JARDIN, FONTAINE)
 // RAJOUTER FILTRE GRATUIT OU NON
 // FILTRE OUVERT OU NON
+// FILTRE PAR TRUCS (ACTIVITES, JARDIN, FONTAINE)
 // FILTRE PAR ARRONDISSEMENT (FILTRE OU L'ON PEUT CHOISIR LE NUMERO EN ECRIVANT ET CA ME RAMENE DESSUS)
-// PK PAS UN SYSTEME DE SORT PAR DEPARTEMENT, TYPE
+// PAGINATION
 // SI JAMAIS J'AI LE TEMPS FAIRE UN INPUT OU TU PEUX METTRE TON ADRESSE ET CA TE RENVOIE LES TRUCS LES PLUS PROCHES
+// UN BON README 
 
 "use client";
 
@@ -14,6 +15,8 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
+  const [filterGratuit, setFilterGratuit] = useState(false);
+  const [filterOuvert, setFilterOuvert] = useState(false);
   const searchTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export default function Home() {
         try {
           let url;
           if (query) {
-            url = `/api/search?q=${query}`;
+            url = `/api/search?q=${encodeURIComponent(query)}`;
           } else {
             url = "/api/search";
           }
@@ -59,10 +62,39 @@ export default function Home() {
   return (
     <div id="true">
       <SearchBar onQueryChange={setQuery} />
+      <div>
+        <label>
+          <input type="checkbox" checked={filterGratuit} onChange={e => setFilterGratuit(e.target.checked)} />
+          Gratuit uniquement
+        </label>
+        <label>
+          <input type="checkbox" checked={filterOuvert} onChange={e => setFilterOuvert(e.target.checked)} />
+          Ouvert actuellement
+        </label>
+      </div>
       {(() => {
+
         if (loading) {
           return <div>Chargement...</div>;
         } else {
+          let filteredData = data;
+          
+          if (filterGratuit) {
+            filteredData = filteredData.filter(item => {
+              if (item.payant === undefined || item.payant === null) return true;
+              return String(item.payant).toLowerCase() === "non";
+            });
+          }
+
+          if (filterOuvert) {
+            filteredData = filteredData.filter(item => {
+              if (item.statut_ouverture === undefined || item.statut_ouverture === null) {
+                return false;
+              }
+              return String(item.statut_ouverture).toLowerCase() === "ouvert";
+            });
+          }
+
           return (
             <table>
               <thead>
@@ -77,8 +109,8 @@ export default function Home() {
               </thead>
               <tbody>
                 {(() => {
-                  if (data.length > 0) {
-                    return data.map((item, index) => {
+                  if (filteredData.length > 0) {
+                    return filteredData.map((item, index) => {
                       let lieu = "-";
                       if (item.nom || item.name || item.voie) {
                         lieu = (
@@ -120,7 +152,7 @@ export default function Home() {
                       }
 
                       return (
-                        <tr key={item.identifiant || item.gid || index}>
+                        <tr key={`${item.identifiant || item.gid || 'item'}-${index}`}>
                           <td>{lieu}</td>
                           <td>{activite}</td>
                           <td>{payant}</td>
@@ -133,7 +165,7 @@ export default function Home() {
                   } else {
                     return (
                       <tr>
-                        <td>
+                        <td colSpan="6">
                           Aucun résultat trouvé.
                         </td>
                       </tr>
