@@ -1,8 +1,4 @@
-
-# QuanticFactory Test – Plateforme de Recherche
-
-Bienvenue sur **QuanticFactory Test** !
-Ce projet est un test technique réalisé en 5 jours pour l’entreprise QuanticFactory, développé avec **Next.js** (React) côté front-end, et utilisant les API **OpenParis** pour la recherche d’activités et de lieux.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 

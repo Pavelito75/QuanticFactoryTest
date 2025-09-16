@@ -1,0 +1,254 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --main-color: #5F259F;
+  --secondary-color-1: #9468C4;
+  --secondary-color-2: #659F25;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --main-color: #5F259F;
+    --secondary-color-1: #9468C4;
+    --secondary-color-2: #5F259F;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--main-color);
+}
+
+a {
+  color: var(--secondary-color-1);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--secondary-color-2);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--main-color);
+  margin: 24px 0;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 700px;
+  max-width: 95vw;
+  margin: 32px auto 16px auto;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(95, 37, 159, 0.10);
+  border-radius: 8px;
+  overflow: hidden;
+  border-spacing: 0;
+}
+
+thead {
+  background: #5f259f;
+  color: #fff;
+}
+
+table th, table td {
+  border: 2px solid #5f259f;
+  text-align: left;
+  padding: 20px 24px;
+  vertical-align: middle;
+}
+
+tbody tr {
+  transition: background 0.2s;
+}
+
+tbody a {
+  color: black;
+  font-style: italic;
+}
+
+tbody a:hover {
+  color: var(--main-color);
+  font-style: italic;
+}
+
+tbody tr:hover {
+  background: linear-gradient(135deg, rgba(158, 75, 164, 0.8), var(--secondary-color-2)) !important;
+  color: #fff;
+  transform: scale(1.01);
+  box-shadow: 0 2px 8px rgba(101, 159, 37, 0.3);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(95, 37, 159, 0.08);
+}
+
+tr:nth-child(odd) {
+  background-color: rgba(95, 37, 159, 0.03);
+}
+
+table th {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-bar-input {
+  width: 350px;
+  max-width: 90vw;
+  padding: 14px 20px;
+  border: 2px solid var(--main-color);
+  border-radius: 32px;
+  font-size: 1.1rem;
+  background: #faf7ff;
+  color: var(--foreground);
+  box-shadow: 0 2px 8px rgba(95, 37, 159, 0.08);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin: 32px auto 0 auto;
+  display: block;
+}
+
+.search-bar-input:focus {
+  border: 2px solid var(--secondary-color-1);
+  box-shadow: 0 4px 16px rgba(95, 37, 159, 0.18);
+  background: #fff;
+}
+
+/* Page principale */
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filters-row {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.reset-button {
+  background-color: #ff4d5f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reset-button:hover {
+  background-color: #8a0916;
+}
+
+.geolocation-button {
+  background-color: #1cca44;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.geolocation-button:hover {
+  background-color: #0e7223;
+}
+
+.geolocation-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.location-error {
+  color: #dc3545;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.location-success {
+  color: #24d64d;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-info {
+  margin-bottom: 10px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination-btn:hover {
+  background-color: #0056b3;
+}
+
+.pagination-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination-current {
+  margin: 0 15px;
+  font-weight: bold;
+  color: #495057;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
