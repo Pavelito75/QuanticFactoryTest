@@ -16,6 +16,10 @@
   /* font-family: var(--font-geist-sans); */
 }
 
+#true {
+  font-family: 'Courier New', Courier, monospace;
+}
+
 
 .test {
   background-color: #5f259f;

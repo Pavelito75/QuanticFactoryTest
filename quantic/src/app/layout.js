@@ -1,3 +1,4 @@
+import "./globals.css";
 import Nexa from 'next/font/local'
  
 const myFont = Nexa({
