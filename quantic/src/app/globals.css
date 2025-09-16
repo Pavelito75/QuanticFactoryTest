@@ -139,7 +139,6 @@ table th {
   background: #fff;
 }
 
-/* Page principale */
 .container {
   padding: 20px;
   max-width: 1200px;
@@ -155,7 +154,7 @@ table th {
 }
 
 .reset-button {
-  background-color: #ff4d5f;
+  background-color:#5f259f;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -164,11 +163,11 @@ table th {
 }
 
 .reset-button:hover {
-  background-color: #8a0916;
+  background-color:#390e66;
 }
 
 .geolocation-button {
-  background-color: #1cca44;
+  background-color:#5f259f;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -177,7 +176,7 @@ table th {
 }
 
 .geolocation-button:hover {
-  background-color: #0e7223;
+  background-color:#390e66;
 }
 
 .geolocation-button:disabled {
@@ -186,13 +185,13 @@ table th {
 }
 
 .location-error {
-  color: #dc3545;
+  color:#5f259f;
   margin: 10px 0;
   font-size: 14px;
 }
 
 .location-success {
-  color: #24d64d;
+  color:#5f259f;
   margin: 10px 0;
   font-size: 14px;
 }
@@ -223,7 +222,7 @@ table th {
 }
 
 .pagination-btn {
-  background-color: #007bff;
+  background-color:#5f259f;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -233,7 +232,7 @@ table th {
 }
 
 .pagination-btn:hover {
-  background-color: #0056b3;
+  background-color:#390e66;
 }
 
 .pagination-btn:disabled {
