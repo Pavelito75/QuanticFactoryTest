@@ -14,7 +14,10 @@ export default function FilterArrondissement({ data, value, onChange }) {
     var options = [];
     if (lieux.length > 0) {
       for (var j = 0; j < lieux.length; j++) {
-        options.push(<option key={lieux[j]} value={lieux[j]}>{lieux[j]}</option>);
+        options.push(
+            <option key={lieux[j]} value={lieux[j]}>
+                {lieux[j]}
+            </option>);
       }
     }
     return options;

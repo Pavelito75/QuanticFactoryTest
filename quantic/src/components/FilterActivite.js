@@ -13,7 +13,7 @@ export default function FilterActivite({ data, value, onChange }) {
     for (var j = 0; j < activites.length; j++) {
       options.push(
         <option key={activites[j]} value={activites[j]}>
-          {activites[j]}
+            {activites[j]}
         </option>
       );
     }
